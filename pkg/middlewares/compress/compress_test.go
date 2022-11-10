@@ -36,7 +36,7 @@ func TestNegotiation(t *testing.T) {
 			expEncoding: "br",
 		},
 		{
-			desc:            "bad accept header",
+			desc:            "unsupported accept header",
 			acceptEncHeader: "notreal",
 			expEncoding:     "",
 		},
@@ -57,12 +57,12 @@ func TestNegotiation(t *testing.T) {
 		},
 		{
 			desc:            "multi accept header, prefer br",
-			acceptEncHeader: "br;q=0.8, gzip;q=1.0",
+			acceptEncHeader: "br;q=0.8, gzip;q=0.6",
 			expEncoding:     "br",
 		},
 		{
 			desc:            "multi accept header, prefer br",
-			acceptEncHeader: "br;q=0.8, gzip;q=0.6",
+			acceptEncHeader: "gzip;q=1.0, br;q=0.8",
 			expEncoding:     "br",
 		},
 		{
@@ -74,6 +74,7 @@ func TestNegotiation(t *testing.T) {
 
 	for _, test := range testCases {
 		test := test
+
 		t.Run(test.desc, func(t *testing.T) {
 			t.Parallel()
 
@@ -459,7 +460,7 @@ func TestMinResponseBodyBytes(t *testing.T) {
 	}
 }
 
-func Test_encodingAccepts(t *testing.T) {
+func Test_encodingAccepts(t *testing.T) { // FIXME: weird test?
 	testCases := []struct {
 		desc           string
 		acceptEncoding string
