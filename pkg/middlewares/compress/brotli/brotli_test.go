@@ -108,7 +108,7 @@ func Test_NoBody(t *testing.T) {
 			require.NoError(t, err)
 
 			assert.Empty(t, rw.Header().Get(contentEncoding))
-			assert.Len(t, body, 0)
+			assert.Empty(t, body)
 		})
 	}
 }
@@ -142,7 +142,7 @@ func Test_MinSize(t *testing.T) {
 	assert.Empty(t, rw.Result().Header.Get(contentEncoding))
 
 	// Long response is compressed
-	bodySize = cfg.MinSize + 1
+	bodySize = cfg.MinSize
 	rw = httptest.NewRecorder()
 	h.ServeHTTP(rw, req)
 
@@ -252,7 +252,7 @@ func Test_FlushAfterWriteNil(t *testing.T) {
 
 	got, err := io.ReadAll(brotli.NewReader(res.Body))
 	require.NoError(t, err)
-	assert.Len(t, got, 0)
+	assert.Empty(t, got)
 }
 
 func Test_FlushAfterAllWrites(t *testing.T) {
