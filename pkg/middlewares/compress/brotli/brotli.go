@@ -177,7 +177,8 @@ func (r *responseWriter) Write(p []byte) (int, error) {
 	return r.bw.Write(p)
 }
 
-// Flush flushes data to the appropriate underlying writer(s).
+// Flush flushes data to the appropriate underlying writer(s), although it does
+// not guarantee that all buffered data will be sent.
 // If not enough bytes have been written to determine whether to enable compression,
 // no flushing will take place.
 func (r *responseWriter) Flush() {
@@ -226,7 +227,7 @@ func (r *responseWriter) Flush() {
 
 	// And just like in Write we also handle "short writes".
 	if n < len(r.buf) {
-		r.buf = r.buf[n:] // FIXME: this means a flush might not actually flush *all* data?
+		r.buf = r.buf[n:]
 		return
 	}
 
