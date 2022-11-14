@@ -460,54 +460,6 @@ func TestMinResponseBodyBytes(t *testing.T) {
 	}
 }
 
-func Test_encodingAccepts(t *testing.T) { // FIXME: weird test?
-	testCases := []struct {
-		desc           string
-		acceptEncoding string
-		accepted       bool
-	}{
-		{
-			desc:           "br requested, br accepted",
-			acceptEncoding: "br",
-			accepted:       true,
-		},
-		{
-			desc:           "gzip requested, br not accepted",
-			acceptEncoding: "gzip",
-			accepted:       false,
-		},
-		{
-			desc:           "any requested, br accepted",
-			acceptEncoding: "*",
-			accepted:       true,
-		},
-		{
-			desc:           "gzip and br requested, br accepted",
-			acceptEncoding: "gzip, br",
-			accepted:       true,
-		},
-		{
-			desc:           "gzip and any requested, br accepted",
-			acceptEncoding: "gzip, *",
-			accepted:       true,
-		},
-		{
-			desc:           "gzip and identity requested, br not accepted",
-			acceptEncoding: "gzip, identity",
-			accepted:       false,
-		},
-	}
-
-	for _, test := range testCases {
-		test := test
-		t.Run(test.desc, func(t *testing.T) {
-			t.Parallel()
-
-			assert.Equal(t, test.accepted, encodingAccepts([]string{test.acceptEncoding}, "br"))
-		})
-	}
-}
-
 func BenchmarkCompress(b *testing.B) {
 	testCases := []struct {
 		name     string

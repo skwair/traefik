@@ -48,7 +48,7 @@ func New(ctx context.Context, next http.Handler, conf dynamic.Compress, name str
 	}
 
 	minSize := DefaultMinSize
-	if conf.MinResponseBodyBytes > 0 { // FIXME
+	if conf.MinResponseBodyBytes > 0 {
 		minSize = conf.MinResponseBodyBytes
 	}
 
