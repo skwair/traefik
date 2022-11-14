@@ -210,7 +210,8 @@ func (r *responseWriter) Flush() {
 	// Also, since we know that bw writes to rw, but (apparently) never flushes it,
 	// we have to do it ourselves.
 	defer func() {
-		r.bw.Flush() // FIXME: unhandled error?
+		// because we also ignore the error returned by Write anyway
+		_ = r.bw.Flush()
 
 		if rw, ok := r.rw.(http.Flusher); ok {
 			rw.Flush()
