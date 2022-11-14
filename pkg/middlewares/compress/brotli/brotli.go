@@ -273,10 +273,7 @@ func (r *responseWriter) close() error {
 	}
 
 	if len(r.buf) == 0 {
-		if !r.compressionStarted { // FIXME: useless? or lack explicit test?
-			return nil
-		}
-
+		// If we got here we know compression has started, so we can safely flush on bw.
 		return r.bw.Close()
 	}
 
